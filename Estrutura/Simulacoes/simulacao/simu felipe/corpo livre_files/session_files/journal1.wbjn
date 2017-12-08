@@ -1,0 +1,65 @@
+﻿# encoding: utf-8
+# Release 18.0
+SetScriptVersion(Version="18.0.351")
+template1 = GetTemplate(TemplateName="Mechanical Model")
+system1 = template1.CreateSystem()
+geometry1 = system1.GetContainer(ComponentName="Geometry")
+geometry1.Edit(IsSpaceClaimGeometry=True)
+geometry1.Exit()
+geometry1.Edit()
+geometry1.Exit()
+modelComponent1 = system1.GetComponent(Name="Model")
+modelComponent1.Refresh()
+model1 = system1.GetContainer(ComponentName="Model")
+model1.Edit()
+model1.Exit()
+Save(Overwrite=True)
+template2 = GetTemplate(
+    TemplateName="Modal",
+    Solver="ANSYS")
+engineeringDataComponent1 = system1.GetComponent(Name="Engineering Data")
+geometryComponent1 = system1.GetComponent(Name="Geometry")
+system2 = template2.CreateSystem(
+    ComponentsToShare=[engineeringDataComponent1, geometryComponent1, modelComponent1],
+    Position="Right",
+    RelativeTo=system1)
+modelComponent1.Refresh()
+setupComponent1 = system2.GetComponent(Name="Setup")
+setupComponent1.Refresh()
+setup1 = system2.GetContainer(ComponentName="Setup")
+setup1.Edit()
+model1.Exit()
+Save(Overwrite=True)
+system3 = template2.CreateSystem(
+    ComponentsToShare=[engineeringDataComponent1, geometryComponent1, modelComponent1],
+    Position="Below",
+    RelativeTo=system2)
+system2.DisplayText = "Modal Corpo Livre"
+modelComponent1.Refresh()
+setupComponent2 = system3.GetComponent(Name="Setup")
+setupComponent2.Refresh()
+setup2 = system3.GetContainer(ComponentName="Setup")
+setup2.Edit()
+model1.Exit()
+template3 = GetTemplate(
+    TemplateName="Static Structural",
+    Solver="ANSYS")
+system4 = template3.CreateSystem(
+    ComponentsToShare=[engineeringDataComponent1, geometryComponent1, modelComponent1],
+    Position="Below",
+    RelativeTo=system3)
+system3.Delete()
+setup3 = system4.GetContainer(ComponentName="Setup")
+setup3.Edit()
+Save(Overwrite=True)
+system5 = template2.CreateSystem(
+    ComponentsToShare=[engineeringDataComponent1, geometryComponent1, modelComponent1],
+    Position="Below",
+    RelativeTo=system4)
+system5.DisplayText = "Modal fixo"
+setup4 = system5.GetContainer(ComponentName="Setup")
+setup4.Edit()
+system5.DisplayText = "Modal corpo rigido"
+Save(Overwrite=True)
+model1.Exit()
+Save(Overwrite=True)

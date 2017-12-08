@@ -1,0 +1,8 @@
+/COM,ANSYS RELEASE Release 18.0      BUILD 18.0      UP20161219       16:19:22
+
+ *** WARNING ***                         CP =       0.469   TIME= 16:19:23
+ Element shape checking is currently inactive.  Issue SHPP,ON or         
+ SHPP,WARN to reactivate, if desired.                                    
+
+ *** WARNING ***                         CP =       0.500   TIME= 16:19:23
+ No constraints have been defined using the D command.                   
